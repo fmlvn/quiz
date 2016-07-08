@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block page_content %}
+<ol>
+    {% for quiz in quizzes %}
+    <li><a href='{{ url_for('quiz', qid=quiz.id) }}'>{{ quiz.title }}</a></li>
+    {% endfor %}
+</ol>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}Quiz{% endblock %}
+
+{% block navbar %}
+<div class='navbar navbar-inverse' role='navigation'>
+    <div class='container'>
+        <a class='navbar-brand' href='{{ url_for('index') }}'>Quiz</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
