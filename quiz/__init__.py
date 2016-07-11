@@ -17,5 +17,5 @@ import quiz.views
 
 if not os.path.exists(os.path.join(app.config['BASE_DIR'], 'app.db')):
     db.create_all()
-quiz.models.import_db()
+    quiz.models.import_db()
 
