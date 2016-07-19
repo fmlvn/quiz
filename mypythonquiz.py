@@ -7,6 +7,7 @@ import requests
 
 
 def get_correct_answer(question_id, choices):
+    ret = []
     for choice in choices:
         data = {'answer': choice,
                 'qid': question_id}
@@ -20,9 +21,12 @@ def get_correct_answer(question_id, choices):
                 time.sleep(5)
         soup = BeautifulSoup(res.text, 'lxml')
         if 'incorrect' not in res.text:
+            ret.append((choices[choice], True))
             description = soup.select('.description')[0].text
             description = description.split('description: ')[1].strip()
-            return choice, description
+        else:
+            ret.append((choices[choice], False))
+    return ret, description
 
 
 def get_question_info(question_link):
@@ -45,19 +49,17 @@ def get_question_info(question_link):
     answer_list = [i.getText() for i in soup.select('.content .myspan')[1:]]
     answers = dict(zip(answer_values, answer_list))
 
-    correct_answer, description = get_correct_answer(question_id, answers)
+    choices, description = get_correct_answer(question_id, answers)
 
     print('done')
 
     return {'title': title,
             'question': question,
             'code': code,
-            'choices': answers,
-            'correct': correct_answer,
+            'choices': choices,
             'description': description}
 
 def get_quiz():
-
     res = requests.get('http://www.mypythonquiz.com/list.php')
     soup = BeautifulSoup(res.text, 'lxml')
     question_links = [a for a in soup.select('.question a')]
@@ -66,10 +68,6 @@ def get_quiz():
     for link in question_links:
         question_info = get_question_info(link)
         questions.append(question_info)
-#         with open('data.json', 'a') as f:
-#             f.write(str(question_info)+'\n')
-#         time.sleep(5)
-
 
     return questions
 

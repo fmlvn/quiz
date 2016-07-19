@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block page_content %}
+    {% set count = 0 %}
+    {% for quiz in quizzes%}
+        <h1>{{ quiz.title }}</h1>
+        <p>Question: {{ quiz.question }}</p>
+        <pre>{{ quiz.code }}</pre>
+        <h5>{{ choices[count] }}</h5>
+        {% set count = count + 1 %}
+    {% endfor %}
+{% endblock %}

@@ -2,7 +2,7 @@
 {% block page_content %}
 <ol>
     {% for quiz in quizzes %}
-    <li><a href='{{ url_for('quiz', qid=quiz.id) }}'>{{ quiz.title }}</a></li>
+    <li><a href='{{ url_for('view_quiz', qid=quiz.id) }}'>{{ quiz.title }}</a></li>
     {% endfor %}
 </ol>
 {% endblock %}

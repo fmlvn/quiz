@@ -12,3 +12,5 @@ CSRF_SESSION_KEY = 'fdjsewhjfkd'
 
 SECRET_KEY = 'jfeoire20ejru'
 
+CODEMIRROR_LANGUAGES = ['python', ]
+

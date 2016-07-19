@@ -16,9 +16,15 @@ def import_db():
         quiz = Quiz(title=question['title'],
                     question=question['question'],
                     code=question['code'],
-                    choices=str(question['choices']),
-                    correct=question['correct'],
                     description=question['description'])
+
+        choices = question['choices']
+        for choice in choices:
+            choice = Choice(content=choice[0],
+                            correct=choice[1],
+                            quiz_id = quiz.id)
+            db.session.add(choice)
+            quiz.choices.append(choice)
         db.session.add(quiz)
     db.session.commit()
 
@@ -27,21 +33,32 @@ class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
     question = db.Column(db.String)
-    code = db.Column(db.String)
-    choices = db.Column(db.String)
-    correct = db.Column(db.String)
+    code = db.Column(db.Text)
     description = db.Column(db.String)
+    choices = db.relationship('Choice', backref='quiz')
 
 
-    def __init__(self, title, question, code, choices, correct, description):
-        self.title = title
-        self.question = question
-        self.code = code
-        self.choices = choices
-        self.correct = correct
-        self.descrption = description
+    def __str__(self):
+        return self.title
 
 
     def __repr__(self):
         return '<{}>'.format(self.title)
+
+
+class Choice(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String)
+    correct = db.Column(db.Boolean)
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'))
+
+
+    def __str__(self):
+        return '{}: {}'.format(self.content, self.correct)
+
+
+    def __repr__(self):
+        return '<{}: {} for quiz {}>'.format(self.content,
+                                             self.correct,
+                                             self.quiz_id)
 
