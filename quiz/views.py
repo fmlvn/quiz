@@ -2,8 +2,14 @@ from flask import render_template, request, redirect, url_for
 from wtforms import RadioField
 
 from quiz import app
-from quiz.models import Quiz
+from quiz.models import Quiz, Choice
 from quiz.forms import QuizForm
+
+
+def check_answer(qid, chosen):
+    correct_choices = Choice.query.filter_by(quiz_id=qid,correct=True).all()
+    correct = [choice.id for choice in correct_choices]
+    return chosen == correct
 
 
 @app.route('/')
@@ -15,22 +21,9 @@ def index():
 @app.route('/quiz/<qid>', methods=('GET', 'POST'))
 def view_quiz(qid):
     quiz = Quiz.query.filter_by(id=qid).first()
-    form = QuizForm(request.form, quiz)
-    if form.choices.choices == []:
-        for choice in quiz.choices:
-            form.choices.choices.append((choice.id, choice.content))
-            form.choices.name = str(quiz.id)
-            print(choice)
+    form = QuizForm(request.form, qid=qid)
     if request.method == 'POST':
-        print(form.choices.choices)
-        if form.validate():
-            print('validated')
-        else:
-            print('not validated')
-        if form.validate_on_submit():
-            print('validate on submit')
-        else:
-            print('not validate on submit')
+        print(check_answer(qid, form.choices.data))
     return render_template('quiz.html', quiz=quiz, form=form)
 
 
