@@ -8,12 +8,40 @@
 {% endblock %}
 
 {% block page_content %}
-
+    {% if results != [] %}
+    <div class='well'>
+        {% for result in results %}
+            {% if result[1] == True %}
+            <button class='btn alert alert-success'>
+            {% else %}
+            <button class='btn alert alert-danger'>
+            {% endif %}
+                {{ result[0] }}: {{ result[1] }}
+            </button>
+        {% endfor %}
+        {{ result }}
+    </div>
+    {% endif %}
     <form method='post' action=''>
         {{ form.hidden_tag() }}
-        {{ form.choice1 }}
-        {{ wtf.form_field(form.submit) }}
+        {% for quiz in quiz_list %}
+            <h3>
+                {{ quiz['quiz'].title }}
+                <!--<a href='{{ url_for('quiz.edit_view', id=quiz['quiz'].id,
+                            url=url_for('view_quiz', qid=quiz['quiz'].id)) }}'>Edit</a>-->
+            </h3>
+            <h3>{{ quiz['quiz'].question }}</h3>
+            {% highlight 'python' %}{{ quiz['quiz'].code }}{% endhighlight %}
+            {% for choice in quiz['choices'] %}
+                <div class='checkbox'>
+                    <label>
+                        {{ choice }}
+                        <span>{{ choice.label.text }}</span>
+                    </label>
+                </div>
+            {% endfor %}
+            <hr />
+        {% endfor %}
+        <button type='submit' title='Submit Answers!'>Submit Answers!</button>
     </form>
-    {{ chosen }}
-    {% if result != '' %}{{ result }}{% endif %}
 {% endblock %}
