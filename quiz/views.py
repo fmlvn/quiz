@@ -35,7 +35,8 @@ def view_quiz(qid):
 
 @app.route('/test', methods=['GET', 'POST'])
 def test():
-    qids = [1, 4, 9, 14, 17, 18, 23, 24, 27, 28, 34, 35, 36, 38, 39, 40, 43, 54, 55, 56, 59, 61, 62, 63, 65]
+    qids = [1, 4, 9, 14, 17, 18, 23, 24, 27, 28, 34, 35, 36,
+            38, 39, 40, 43, 54, 55, 56, 59, 61, 62, 63, 65]
     quizzes = Quiz.query.filter(Quiz.id.in_(qids)).all()
 
 
@@ -50,11 +51,9 @@ def test():
                                     option_widget=widgets.CheckboxInput())
         setattr(MultiQuizForm, field_name, field)
 
-
     form = MultiQuizForm(request.form, quizzes=quizzes)
 
     quiz_list = []
-
     for quiz in quizzes:
         quiz_list.append({'quiz': quiz,
                           'choices': getattr(form, 'quiz_{}'.format(quiz.id))})
@@ -64,6 +63,7 @@ def test():
         for qid in qids:
             chosen = [int(i) for i in request.form.getlist('quiz_{}'.format(qid))]
             results.append((qid, check_answer(qid, chosen)))
+
     return render_template('multiquiz.html', form=form,
                            quiz_list=quiz_list, results=results)
 
