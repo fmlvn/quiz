@@ -6,9 +6,12 @@ from flask_bootstrap import Bootstrap
 # from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_codemirror import CodeMirror
+import jinja2_highlight
 
 
 app = Flask(__name__)
+app.jinja_options = dict(Flask.jinja_options)
+app.jinja_options.setdefault('extensions', []).append('jinja2_highlight.HighlightExtension')
 app.config.from_object('config')
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)

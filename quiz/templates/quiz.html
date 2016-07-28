@@ -1,18 +1,33 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
+
+{% block styles %}
+{{ super() }}
+<link href='{{ url_for('static', filename='solarized-dark.css') }}' rel='stylesheet'>
+<link href='{{ url_for('static', filename='style.css') }}' rel='stylesheet'>
+{% endblock %}
+
 {% block page_content %}
+
     <form method='post' action=''>
         {{ form.hidden_tag() }}
-        <pre>{{ quiz.code }}</pre>
+        <h3>
+            {{ quiz.title }}
+            <!--<a href='{{ url_for('quiz.edit_view', id=quiz.id,
+                        url=url_for('view_quiz', qid=quiz.id)) }}'>Edit</a>-->
+        </h3>
+        <h3>{{ quiz.question }}</h3>
+        {% highlight 'python' %}{{ quiz.code }}{% endhighlight %}
         {% for choice in form.choices %}
-            <div class='radio'>
-                <label>{{ choice }} <span>{{ choice.label.text }}</span></label>
+            <div class='checkbox'>
+                <label>
+                    {{ choice }}
+                    <span>{{ choice.label.text }}</span>
+                </label>
             </div>
         {% endfor %}
         {{ wtf.form_field(form.submit) }}
     </form>
-    {% for choice in form.choices %}
-        {{ choice.data }}
-    {% endfor %}
-    <p>abc{{ data }}</p>
+    {{ chosen }}
+    {% if result != '' %}{{ result }}{% endif %}
 {% endblock %}

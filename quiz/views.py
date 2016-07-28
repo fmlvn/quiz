@@ -3,7 +3,7 @@ from wtforms import RadioField
 
 from quiz import app
 from quiz.models import Quiz, Choice
-from quiz.forms import QuizForm
+from quiz.forms import QuizForm, MultiQuizForm
 
 
 def check_answer(qid, chosen):
@@ -22,21 +22,21 @@ def index():
 def view_quiz(qid):
     quiz = Quiz.query.filter_by(id=qid).first()
     form = QuizForm(request.form, qid=qid)
-    if request.method == 'POST':
-        print(check_answer(qid, form.choices.data))
-    return render_template('quiz.html', quiz=quiz, form=form)
+    result = ''
+    if form.validate_on_submit():
+        chosen = request.form.getlist('quiz_{}'.format(qid))
+        chosen = [int(i) for i in chosen]
+        result = check_answer(qid, chosen)
+        return render_template('quiz.html', quiz=quiz, form=form, result=result)
+
+    return render_template('quiz.html', quiz=quiz, form=form, result=result)
 
 
 
 @app.route('/test', methods=['GET', 'POST'])
 def test():
-    qids = [1, 2, 3, 4, 5]
-    if request.method == 'GET':
-        quiz_list = [Quiz.query.filter_by(id=qid).first() for qid in qids]
-        choices = []
-        for quiz in quiz_list:
-            for choice in quiz.choices:
-                if choice.correct == True:
-                    choices.append(choice.content)
-        return render_template('test.html', quizzes=quiz_list, choices=choices)
+    qids = [1, 4, 9, 14, 17, 18, 23, 24, 27, 28, 34, 35, 36, 38, 39, 40, 43, 54, 55, 56, 59, 61, 62, 63, 65]
+    form = MultiQuizForm(request.form, qids=qids)
+    return render_template('multiquiz.html', qids=qids)
+    return render_template('multiquiz.html', form=form)
 
