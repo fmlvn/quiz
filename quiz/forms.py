@@ -14,6 +14,5 @@ class QuizForm(Form):
         super().__init__(*args, **kwargs)
         choices_list = Choice.query.filter_by(quiz_id=kwargs['qid']).all()
         self.choices.choices = [(choice.id, choice.content)
-                                 for choice in choices_list]
+                                for choice in choices_list]
         self.choices.name = 'quiz_{}'.format(kwargs['qid'])
-
