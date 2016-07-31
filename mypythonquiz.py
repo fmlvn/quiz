@@ -59,6 +59,7 @@ def get_question_info(question_link):
             'choices': choices,
             'description': description}
 
+
 def get_quiz():
     res = requests.get('http://www.mypythonquiz.com/list.php')
     soup = BeautifulSoup(res.text, 'lxml')
@@ -76,4 +77,3 @@ if __name__ == '__main__':
     data = get_quiz()
     with open('data.json', 'w') as f:
         f.write(json.dumps(data))
-
