@@ -1,3 +1,6 @@
+body {
+    padding-top: 70px;
+}
 .highlight {
     -webkit-user-select: none;
     -khtml-user-select: none;
