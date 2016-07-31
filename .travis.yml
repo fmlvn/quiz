@@ -6,4 +6,4 @@ python:
 
 install: "pip install pep8"
 
-script: pep8 * --max-line-length=99
+script: pep8 *.py --max-line-length=99
