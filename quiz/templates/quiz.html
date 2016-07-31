@@ -13,8 +13,8 @@
         {{ form.hidden_tag() }}
         <h3>
             {{ quiz.title }}
-            <!--<a href='{{ url_for('quiz.edit_view', id=quiz.id,
-                        url=url_for('view_quiz', qid=quiz.id)) }}'>Edit</a>-->
+            <a href='{{ url_for('quiz.edit_view', id=quiz.id,
+                url=url_for('view_quiz', qid=quiz.id)) }}'>Edit</a>
         </h3>
         <h3>{{ quiz.question }}</h3>
         {% highlight 'python' %}{{ quiz.code }}{% endhighlight %}
