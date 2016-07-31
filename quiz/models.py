@@ -22,7 +22,7 @@ def import_db():
         for choice in choices:
             choice = Choice(content=choice[0],
                             correct=choice[1],
-                            quiz_id = quiz.id)
+                            quiz_id=quiz.id)
             db.session.add(choice)
             quiz.choices.append(choice)
         db.session.add(quiz)
@@ -37,10 +37,8 @@ class Quiz(db.Model):
     description = db.Column(db.String)
     choices = db.relationship('Choice', backref='quiz')
 
-
     def __str__(self):
         return self.title
-
 
     def __repr__(self):
         return '<{}>'.format(self.title)
@@ -52,13 +50,10 @@ class Choice(db.Model):
     correct = db.Column(db.Boolean)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'))
 
-
     def __str__(self):
         return '{}: {}'.format(self.content, self.correct)
-
 
     def __repr__(self):
         return '<{}: {} for quiz {}>'.format(self.content,
                                              self.correct,
                                              self.quiz_id)
-

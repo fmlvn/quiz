@@ -8,7 +8,7 @@ from quiz.forms import QuizForm
 
 
 def check_answer(qid, chosen):
-    correct_choices = Choice.query.filter_by(quiz_id=qid,correct=True).all()
+    correct_choices = Choice.query.filter_by(quiz_id=qid, correct=True).all()
     correct = [choice.id for choice in correct_choices]
     return chosen == correct
 
@@ -27,10 +27,8 @@ def view_quiz(qid):
     if form.validate_on_submit():
         chosen = [int(i) for i in request.form.getlist('quiz_{}'.format(qid))]
         result = check_answer(qid, chosen)
-        #return render_template('quiz.html', quiz=quiz, form=form, result=result)
 
     return render_template('quiz.html', quiz=quiz, form=form, result=result)
-
 
 
 @app.route('/test', methods=['GET', 'POST'])
@@ -38,7 +36,6 @@ def test():
     qids = [1, 4, 9, 14, 17, 18, 23, 24, 27, 28, 34, 35, 36,
             38, 39, 40, 43, 54, 55, 56, 59, 61, 62, 63, 65]
     quizzes = Quiz.query.filter(Quiz.id.in_(qids)).all()
-
 
     class MultiQuizForm(Form):
         pass
@@ -66,4 +63,3 @@ def test():
 
     return render_template('multiquiz.html', form=form,
                            quiz_list=quiz_list, results=results)
-

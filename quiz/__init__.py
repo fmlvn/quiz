@@ -18,7 +18,6 @@ admin = Admin(app, name='quiz', template_mode='bootstrap3')
 codemirror = CodeMirror(app)
 
 
-
 from quiz.models import import_db
 import quiz.views
 
