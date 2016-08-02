@@ -12,9 +12,9 @@
     <div class='well'>
         {% for result in results %}
             {% if result[1] == True %}
-            <button class='btn alert alert-success'>
+            <button class='btn btn-xs alert alert-success'>
             {% else %}
-            <button class='btn alert alert-danger'>
+            <button class='btn btn-xs alert alert-danger'>
             {% endif %}
                 {{ result[0] }}: {{ result[1] }}
             </button>
