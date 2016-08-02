@@ -16,7 +16,7 @@ with app.app_context():
     current_app.config.from_object('config')
     bootstrap = Bootstrap(current_app)
     db = SQLAlchemy(current_app)
-    admin = Admin(current_app, name='quiz', template_mode='bootstrap3')
+    admin = Admin(current_app, name='quiz', template_mode='bootstrap3', url='/assmin')
     codemirror = CodeMirror(current_app)
 
     from quiz.models import import_db
